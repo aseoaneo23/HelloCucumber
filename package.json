@@ -1,0 +1,32 @@
+{
+  "name": "hellocucumber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "cypress:runner": "cypress open"
+  },
+  "keywords": [],
+  "author": "Antonio Seoane",
+  "license": "ISC",
+  "devDependencies": {
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@cucumber/cucumber": "^10.4.0",
+    "cypress": "^13.7.3",
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "esbuild": "^0.20.2"
+  },
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.0.3",
+    "install": "^0.13.0",
+    "npm": "^10.5.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": [
+      "[filepath]/**/*.{js,ts}",
+      "[filepath].{js,ts}",
+      "cypress/e2e/step_definitions/*.{js,ts}"
+    ]
+  }
+}
