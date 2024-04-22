@@ -1,0 +1,5 @@
+Curso de cypress
+
+1.- Abrir cypress --> npx cypress open
+
+2.- Parar consola --> CTRL + e 

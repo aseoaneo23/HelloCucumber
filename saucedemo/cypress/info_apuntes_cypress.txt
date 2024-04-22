@@ -1,0 +1,17 @@
+Página para prácticas de interés (demoqa.com)
+
+Imprimir algo por consola cypress
+
+- cy.log("hola mundo")
+
+Visitar Página
+
+- cy.visit("url")
+
+Coger elemento de la web, y escribir en el un string
+
+- cy.get("#id o .clase").type("Rodrigo")
+
+Añadir esperas
+
+-cy.wait(milisegundos)
