@@ -1,4 +1,4 @@
-# HelloCucumber
+# CypressAndCucumber
 
 🌳 Cypress with Cucumber configuration manual 🥒
 
