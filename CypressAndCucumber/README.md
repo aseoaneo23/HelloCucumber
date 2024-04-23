@@ -9,8 +9,8 @@ How to configure a project that allows to run Cypress tests with Cucumber
 - ✔️[Requirements](#requirements)
 - 🥒[Cucumber Configuration](#cucumber-configuration)
 - 🌳[Cypress Configuration](#cypress-configuration)
-- 🥪[Conecting both](#conecting-configuration)
-- ℹ️[Other information](#other-information)
+- 🥪[Conecting both](#connecting-configuration)
+
 
 ## Requirements
 
@@ -68,24 +68,9 @@ To start with the configuration make sure you have:
 
 ````
     mkdir features
-    mkdir features/step_definitions
-````
-6. Create a file called **cucumber.js** at the root of the project and add the following sentences:
-
-````
-module.exports = {
-  default: `--format-options '{"snippetInterface": "synchronous"}'`
-}
-
+    mkdir support/step_definitions --> support is created default
 ````
 
-7. To finish this configuration you have to create a file called **features/step_definitions/stepdefs.js** with this content:
-
-    ````
-    const assert = require('assert');
-    const { Given, When, Then } = require('@cucumber/cucumber');
-    
-    ````
  Now you have a basic project with Cucumber
  Type the following command on your root folder to verify that works:
 
@@ -93,7 +78,7 @@ module.exports = {
 npm test
 
 ````
-
+You have to see something like 0 tests. Its done!
 
 
 ## Cypress configuration
@@ -111,56 +96,64 @@ npm test
 ````
 
 
-## Conecting configuration
+## Connecting configuration
 
 In order to connect Cypress with Cucumber, we have to:
 
 1. Install two necessary dependences using:
 
 ````
-  npm insatll --save-dev @badeball/cypress-cucumber-preprocessor
+  npm install --save-dev @badeball/cypress-cucumber-preprocessor
+````
+````
   npm i -D cypress @bahmutov/cypress-esbuild-preprocessor esbuild
 
 ````
 
-2. The next step is add configuration bundler in *cypress.config.js*
+2. The next step is add configuration bundler in *cypress.config.js. Pay attention to your directories*
    Your file must look like this:
    ````
    const { defineConfig } = require("cypress");
-   const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
-   const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-preprocessor").addCucumberPreprocessorPlugin;
-   const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin
+    const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+    const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-preprocessor").addCucumberPreprocessorPlugin;
+    const createEsbuildPlugin = require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin
 
-   module.exports = defineConfig({
-     e2e: {
-        async setupNodeEvents(on, config) {
-         // implement node event listeners here
-         const bundler = createBundler({
-           plugins: [createEsbuildPlugin(config)],
-         });
+    module.exports = defineConfig({
+      e2e: {
+         async setupNodeEvents(on, config) {
+          // implement node event listeners here
+          const bundler = createBundler({
+            plugins: [createEsbuildPlugin(config)],
+          });
 
-         on("file:preprocessor", bundler);
-         await addCucumberPreprocessorPlugin(on,config);
+      on("file:preprocessor", bundler);
+      await addCucumberPreprocessorPlugin(on,config);
 
-         return config;
-       },
-       specPattern: "cypress/e2e/features/*.feature",
-       baseUrl: "https://www.saucedemo.com",
-       chromeWebSecurity: false,
-     },
-   });
+      return config;
+    },
+    specPattern: "cypress/features/**/*.feature",
+    baseUrl: "https://www.saucedemo.com",
+    chromeWebSecurity: false,
+      },
+    });
 
-4. To complete the last step, we have to add some information on the file *package.json*. You need to specify the step_definitions file:
+
+4. To complete the last step, we have to add some information on the file *package.json*. You need to specify the step_definitions file (check your directory structure):
+   
    ````
-   "cypress-cucumber-preprocessor": {
-    "stepDefinitions": [
-      "[filepath]/**/*.{js,ts}",
-      "[filepath].{js,ts}",
-      "cypress/e2e/step_definitions/*.{js,ts}"
-       ]
-     }
-
+    "@badeball/cypress-cucumber-preprocessor": {
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filterSpecs": true,
+      "omitFiltered": true,
+      "e2e": {
+        "stepDefinitions": "cypress/support/step_definitions/**/*.{js}"
+      },
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+        }
+      }
+   
    ````
-## Other information
 
-In **e2e/features** you can find a basic test that enters to *www.saucedemo.com* and shows that it works.
