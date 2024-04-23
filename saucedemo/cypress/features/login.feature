@@ -19,28 +19,17 @@ Examples:
 
 
 Scenario Outline: the login failed because credentials
- Given an user with invalid credentials at login page
+ Given an user with invalid or empty credentials at login page
  When the user completes the login with invalid "<username>" and "<password>"
- Then the system shows an error on login
+ Then the system shows an "<error>" on login
 
 
 Examples: 
 
-| username      | password        |
-| bad_user1     | secret_sauce    |
-| standard_user | bad_password    |
-| bad_user3     | secret_bad      |
-| bad_user4     | bad_sauce       |
-| bad_user5     | secret_is_sauce |
+| username      | password     | error                                                                     |
+| bad_user1     | secret_sauce | Epic sadface: Username and password do not match any user in this service |
+| standard_user | bad_password | Epic sadface: Username and password do not match any user in this service |
+| bad_user3     | secret_bad   | Epic sadface: Username and password do not match any user in this service |
+| empty         | secret_sauce | Epic sadface: Username is required                                        |
+| standard_user | empty        | Epic sadface: Password is required                                        |
 
-
-Scenario: the login failed because no credentials
- Given an user without credentials
- When user try to access to the web page without username
- Then the system shows an error on login
-
-
-Scenario: the login failed because no credentials
- Given an user without credentials
- When user try to access to the web page without password
- Then the system shows an error on login

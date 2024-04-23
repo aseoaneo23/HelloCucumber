@@ -1,19 +1,14 @@
 import * as logoutConstants from '../constants/logoutConstants'
+import * as commonActions from '../actions/commonActions';
 
 export const navigateToMainPage = () =>{
-    cy.visit('https://www.saucedemo.com/',)
+    commonActions.visitWebPage(logoutConstants.base_url)
     cy.get(logoutConstants.usernameInput).type(logoutConstants.loggedUsername)
     cy.get(logoutConstants.passwordInput).type(logoutConstants.loggedPassword)
-    cy.get(logoutConstants.loginButton).click()
+    commonActions.clickOnButton(logoutConstants.loginButton)
     cy.wait(1000)
 }
 export const navigateToLeftMenu = () =>{
-    cy.get(logoutConstants.leftMenuId).click({ force: true })
+    commonActions.clickOnButton(logoutConstants.leftMenuId)
     cy.wait(1500)
-}
-export const clickOnLogoutButton = () =>{
-    cy.get(logoutConstants.logoutLink).click()
-}
-export const checkOnLoginPage = () =>{
-    cy.url().should('eq',logoutConstants.base_url)
 }
